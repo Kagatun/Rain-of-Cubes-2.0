@@ -8,12 +8,7 @@ public class SpawnerCube : Spawner<Cube>
 
     private void Start()
     {
-        InvokeRepeating(nameof(GeObject), 0.0f, _repeatRate);
-    }
-
-    protected override void GeObject()
-    {
-        base.GeObject();
+        InvokeRepeating(nameof(SpawnCube), 0.0f, _repeatRate);
     }
 
     protected override Cube CreateObject()
@@ -24,7 +19,7 @@ public class SpawnerCube : Spawner<Cube>
         return cube;
     }
 
-    protected override void ActionOnGet(Cube cube)
+    protected override void OnGet(Cube cube)
     {
         float minStartPosition = -45.0f;
         float maxStartPosition = 45.0f;
@@ -36,7 +31,7 @@ public class SpawnerCube : Spawner<Cube>
         cube.GetComponent<Rigidbody>().velocity = Vector3.zero;
         cube.SetStartingColor();
 
-        base.ActionOnGet(cube);
+        base.OnGet(cube);
     }
 
     protected override void OnRelease(Cube cube)
@@ -51,8 +46,8 @@ public class SpawnerCube : Spawner<Cube>
         cube.Destroyed -= _spawnerBomb.SpawnBomb;
     }
 
-    protected override void RemoveObject(Cube cube)
+    private void SpawnCube()
     {
-        base.RemoveObject(cube);
+        GetFromPool();
     }
 }

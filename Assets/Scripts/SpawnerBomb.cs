@@ -4,7 +4,7 @@ public class SpawnerBomb : Spawner<Bomb>
 {
     public void SpawnBomb(Vector3 position)
     {
-        Bomb bomb = pool.Get();
+        Bomb bomb = GetFromPool();
         bomb.transform.position = position;
     }
 
@@ -15,9 +15,9 @@ public class SpawnerBomb : Spawner<Bomb>
         return bomb;
     }
 
-    protected override void ActionOnGet(Bomb bomb)
+    protected override void OnGet(Bomb bomb)
     {
-        base.ActionOnGet(bomb);
+        base.OnGet(bomb);
         bomb.StartDisappear();
     }
 
@@ -30,10 +30,5 @@ public class SpawnerBomb : Spawner<Bomb>
     {
         bomb.Exploded -= RemoveObject;
         Destroy(bomb.gameObject);
-    }
-
-    protected override void RemoveObject(Bomb bomb)
-    {
-        base.RemoveObject(bomb);
     }
 }

@@ -31,6 +31,23 @@ public class Bomb : MonoBehaviour
         StartCoroutine(Disappear(RandomLifeTime));
     }
 
+    private void Explode()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _explosionRadius);
+
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rigidbody = hit.GetComponent<Rigidbody>();
+
+            if (rigidbody != null)
+            {
+                rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
+            }
+        }
+
+        Exploded?.Invoke(this);
+    }
+
     private IEnumerator Disappear(float lifeTime)
     {
         Color color = _originalColor;
@@ -47,22 +64,5 @@ public class Bomb : MonoBehaviour
         }
 
         Explode();
-    }
-
-    private void Explode()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _explosionRadius);
-
-        foreach (Collider hit in colliders)
-        {
-            Rigidbody rigidbody = hit.GetComponent<Rigidbody>();
-
-            if (rigidbody != null)
-            {
-                rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
-            }
-        }
-
-        Exploded?.Invoke(this);
     }
 }

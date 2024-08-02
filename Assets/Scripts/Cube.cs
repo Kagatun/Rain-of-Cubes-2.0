@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer), typeof(Rigidbody))]
 public class Cube : MonoBehaviour
 {
     [SerializeField] private LayerMask _platform;
@@ -44,13 +45,6 @@ public class Cube : MonoBehaviour
         _renderer.material.color = Color.red;
     }
 
-    private IEnumerator ReleaseAfterTime(float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-
-        Destroy();
-    }
-
     private void Destroy()
     {
         Destroyed?.Invoke(transform.position);
@@ -65,5 +59,12 @@ public class Cube : MonoBehaviour
     private void Touch()
     {
         _isTouched = true;
+    }
+
+    private IEnumerator ReleaseAfterTime(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        Destroy();
     }
 }
